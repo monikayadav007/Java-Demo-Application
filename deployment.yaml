@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Mon-deployment
+  name: mon-deployment
 spec:
   selector:
     matchLabels:
-      run: Mon-deployment
+      run: mon-deployment
   replicas: 2
   template:
     metadata:
       labels:
-        run: Mon-deployment
+        run: mon-deployment
     spec:
       containers:
-      - name: Mon-deployment
+      - name: mon-deployment
         image: monikayadav007/javademoapp_#JOB-NAME#:#BUILD-NUMBER#
         ports:
         - containerPort: 8080
@@ -21,13 +21,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: Mon-deployment
+  name: mon-deployment
   labels:
-    run: Mon-deployment
+    run: mon-deployment
 spec:
   type: NodePort
   ports:
   - port: 8080
     protocol: TCP
   selector:
-    run: Mon-deployment
+    run: mon-deployment
