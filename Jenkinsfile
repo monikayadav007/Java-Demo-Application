@@ -1,7 +1,7 @@
 node{
       
       stage('SCM Checkout'){
-         git 'https://github.com/rajnikhattarrsinha/Java-Demo-Application'
+         git 'https://github.com/monikayadav007/Java-Demo-Application'
       }
       
       stage('Build'){
@@ -16,14 +16,14 @@ node{
       }
       
       stage('Build Docker Image'){
-         sh 'docker build -t rajnikhattarrsinha/javademoapp_$JOB_NAME:$BUILD_NUMBER .'
+         sh 'docker build -t monikayadav007/javademoapp_$JOB_NAME:$BUILD_NUMBER .'
       }  
    
       stage('Publish Docker Image'){
-         withCredentials([string(credentialsId: 'dockerpwd', variable: 'dockerPWD')]) {
-              sh "docker login -u rajnikhattarrsinha -p ${dockerPWD}"
+         withCredentials([string(credentialsId: 'dockerpwdMon', variable: 'dockerPWD')]) {
+              sh "docker login -u monikayadav007 -p ${dockerPWD}"
          }
-        sh 'docker push rajnikhattarrsinha/javademoapp_$JOB_NAME:$BUILD_NUMBER'
+        sh 'docker push monikayadav007/javademoapp_$JOB_NAME:$BUILD_NUMBER'
         sh "sed -i.bak 's/#BUILD-NUMBER#/$BUILD_NUMBER/' deployment.yaml"
         sh "sed -i.bak 's/#JOB-NAME#/$JOB_NAME/' deployment.yaml"
       }
@@ -32,8 +32,8 @@ node{
       // ********* For Azure Cluster**************************
       stage('Deploy'){
          def k8Apply= "kubectl apply -f deployment.yaml" 
-         withCredentials([string(credentialsId: 'k8pwd', variable: 'k8PWD')]) {
-          sh "sshpass -p ${k8PWD} ssh -o StrictHostKeyChecking=no ubuntu@104.211.154.236" 
+         withCredentials([string(credentialsId: 'k8pwdMon', variable: 'k8PWD')]) {
+          sh "sshpass -p ${k8PWD} ssh -o StrictHostKeyChecking=no ubuntu@13.76.82.190" 
           sh "sshpass -p ${k8PWD} scp -r deployment.yaml ubuntu@104.211.154.236:/home/ubuntu" 
           sh "sshpass -p ${k8PWD} ssh  -o StrictHostKeyChecking=no ubuntu@104.211.154.236 ${k8Apply}"
          }
