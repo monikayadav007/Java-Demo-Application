@@ -35,7 +35,7 @@ node{
          withCredentials([string(credentialsId: 'k8pwdMon', variable: 'k8PWD')]) {
           sh "sshpass -p ${k8PWD} ssh -o StrictHostKeyChecking=no ubuntu@13.76.82.190" 
           sh "sshpass -p ${k8PWD} scp -r deployment.yaml ubuntu@13.76.82.190:/home/ubuntu" 
-          sh "sshpass -p ${k8PWD} ssh  -o StrictHostKeyChecking=no ubuntu@13.76.82.190 sudo su ${k8Apply}"
+          sh "sshpass -p ${k8PWD} ssh  -o StrictHostKeyChecking=no ubuntu@13.76.82.190 ${k8Apply}"
          }
        }
       
